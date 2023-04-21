@@ -7,11 +7,12 @@ def suma(num1, num2):
         return None
 
 def resta(num1, num2):
-    if not isinstance(num1, (int, float)) or not isinstance(num2, (int, float)):
-        raise TypeError("Error: Tipo de dato no válido.")
-    resultado = num1 - num2
-    return resultado
-
+    try:
+        resultado = float(num1) - float(num2)
+        return resultado
+    except TypeError:
+        print("Error: Tipo de dato no válido")
+        return None
 
 def producto(num1, num2):
     try:
