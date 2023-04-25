@@ -1,22 +1,40 @@
+class Carta:
+    def __init__(self, numero, palo):
+        self.numero = numero
+        self.palo = palo
+
+    def __str__(self):
+        return str(self.numero) + " de " + self.palo
+
 import random
 
-baraja = [(numero, palo) for numero in range(1, 13) for palo in ('espada', 'basto', 'copa', 'oro')]
-random.shuffle(baraja)
+class Pila:
+    def __init__(self, cartas=[], palo=None):
+        self.cartas = cartas
+        self.palo = palo
 
-espadas = []
-bastos = []
-copas = []
-oros = []
+    def generar_aleatoria(self):
+        self.cartas = []
+        for palo in ["espada", "basto", "copa", "oro"]:
+            for numero in range(1, 13):
+                carta = Carta(numero, palo)
+                self.cartas.append(carta)
+        random.shuffle(self.cartas)
 
-for carta in baraja:
-    if carta[1] == 'espada':
-        espadas.append(carta)
-    elif carta[1] == 'basto':
-        bastos.append(carta)
-    elif carta[1] == 'copa':
-        copas.append(carta)
-    else:
-        oros.append(carta)
+    def separar_por_palo(self):
+        self.cartas_por_palo = {"espada": [], "basto": [], "copa": [], "oro": []}
+        for carta in self.cartas:
+            self.cartas_por_palo[carta.palo].append(carta)
+        self.cartas = None
 
+    def ordenar_por_numero(self):
+        self.cartas.sort(key=lambda carta: carta.numero)
 
-espadas_ordenadas = sorted(espadas, key=lambda carta: carta[0])
+# Generar una pila aleatoria y separarla por palo
+pila = Pila()
+pila.generar_aleatoria()
+pila.separar_por_palo()
+
+# Ordenar la pila de espadas por número de carta
+pila_espadas = Pila(cartas=pila.cartas_por_palo["espada"], palo="espada")
+pila_espadas.ordenar_por_numero()
